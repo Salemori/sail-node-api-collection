@@ -1,46 +1,46 @@
 const mongoose = require("mongoose");
 
 const expenseSchema = new mongoose.Schema({
-    amount:{
-        type: Number,
-        required: true,
-        min: 0
-    },
+    category:[{
+        type: String,
+        enum: ["Food", "Clothing", "Stationery", "School Fee", "Medical Supplies", "Medical Bill", "Infrastructure", "Rent", "Utility", "Monetary", "Transportation"],
+        required: true
+    }],
     description:{
         type: String,
         required: true,
-    },
-    date:{
-        type: Date,
-        required: true,
-    },
-    category:{
-        type: String,
-        enum: ["Food", "Education", "Medical", "Infrastructure", "Rent", "Utility", "Monetary"],
-        required: true
     },
     dateSpent:{
         type: Date,
         required: true,
         default : Date.now
     },
+    totalExpense: {
+        type: Number,
+        required: true
+    },
     recieptUrl:{
         type: String
     },
-    orphanageId:{
+    orphanageFK:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Orphanage",
         required: true
     },
-    items: [{
+    itemsFK: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Item"
     }],
-    creatorId:{
+    createdByFK:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
-    } 
+    }
+    //  updatedByFK:{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "User",
+    //     required: true
+    // } 
 },
 {timestamps: true}
 

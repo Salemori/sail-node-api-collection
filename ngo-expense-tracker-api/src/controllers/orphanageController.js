@@ -1,6 +1,6 @@
-const { response, request } = require("express");
+// const { response, request } = require("express");
 const Orphanage = require("../models/orphanageModel");
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 
 exports.getOrphanages = async (request, response) => {
     try {
@@ -120,7 +120,7 @@ exports.getOphanageByUser = async(request, response) => {
 
 exports.createOrphanage = async (request, response) => {
     try {
-        const data = request.body;
+        const data = request.body; // Remove this later
         const { name } = data;
 
         const orphanageExist = await Orphanage.findOne({ name: name });
