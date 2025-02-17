@@ -6,7 +6,9 @@ const expenseRouter = express.Router();
 
 
 expenseRouter.get("/", expenseController.getExpenses);
+expenseRouter.get("/expense-by-orphanage/:id", expenseController.getTotalOrphanageExpense);
 expenseRouter.post("/", expenseController.createExpense);
+
 
 
 

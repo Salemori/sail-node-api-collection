@@ -17,7 +17,7 @@ const createItem = async (request, response) => {
             itemTotalCost: itemTotalCost,
             expenseFK: expense,
             orphanageFK: orphanage,
-            purchasedByFK: purchasedBy
+            purchasedBy
         })
         await item.save();
 

@@ -1,9 +1,10 @@
 const ExpenseModel = require("../models/expenseModel");
 const ItemModel = require("../models/itemModel");
+const mongoose = require("mongoose");
 
 exports.getExpenses = async (request, response) => {
     try {
-        const expenses = await ExpenseModel.find({});
+        const expenses = await ExpenseModel.find({}).populate("itemsFK createdByFK");
 
         if (!expenses) {
             console.log(!expenses);
@@ -26,7 +27,35 @@ exports.getExpenses = async (request, response) => {
     }
 };
 
-exports.getExpense = () => { };
+exports.getTotalOrphanageExpense = async (request, response) => {
+    try {
+        const {id} = request.params;
+        if(!mongoose.isValidObjectId(id)){
+            return response.send("Inavaild Orphanage ID");
+        }
+        console.log(typeof id)
+        const orphanageExpenses = await ExpenseModel.find({orphanageFK: id});
+    
+        let totalOrphanageExpense = 0;
+        let expenseCollection= [];
+
+        orphanageExpenses.map((expense) => {
+           if(expense.totalExpense){
+            totalOrphanageExpense += expense.totalExpense;
+            expenseCollection.push(expense.totalExpense);
+           }
+
+        });
+
+        response.json({totalOrphanageExpense, expenseCollection});
+    } catch (error) {
+        response.json({
+            status: "failed",
+            message: "Unable to retrieve orphanage total expenses",
+            error: error.message
+        })
+    }
+};
 
 exports.createExpense = async (request, response) => {
     try {
@@ -98,7 +127,7 @@ exports.createExpense = async (request, response) => {
                         itemTotalCost,
                         expenseFK: expense._id,
                         orphanageFK: orphanage,
-                        purchasedByFK: createdBy,
+                        purchasedBy: createdBy,
                     };
                 });
                 createdItems = await ItemModel.insertMany(itemDataCollection);

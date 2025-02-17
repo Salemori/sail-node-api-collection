@@ -37,9 +37,8 @@ const itemSchema = new mongoose.Schema(
       ref: "Orphanage",
       required: true,
     },
-    purchasedByFK: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+    purchasedBy: {
+      type: String,
       required: true,
     },
   },
