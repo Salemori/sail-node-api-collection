@@ -17,7 +17,7 @@ const expenseSchema = new mongoose.Schema({
     },
     totalExpense: {
         type: Number,
-        required: true
+        // required: true
     },
     recieptUrl:{
         type: String
